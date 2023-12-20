@@ -77,8 +77,5 @@ function calculate(postfix){
     return stack.pop();
 }
 
-
-const infix = "2 + 5 * 6 + 2";
-console.log(infixToPostfix(infix));
-console.log(calculate(infixToPostfix(infix)));
+module.exports = {infixToPostfix, calculate}
 

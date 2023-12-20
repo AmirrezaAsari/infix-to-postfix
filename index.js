@@ -27,13 +27,64 @@ app.post("/numeral", (req, res, next)=>{
 app.post("/functional", (req, res, next) =>{
     const {infix} = req.body;
     const postFix = infixToPostfix(infix);
-    res.json({
+    let data = {};
+    for(let i=0; i<9; i++){
+        numeral = postFix.replace("x", i);
+        data[i] = calculate(numeral);
+    }
+    res.send(`<!DOCTYPE html>
+        <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Chart.js Example</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        </head>
+        <body>
+        <canvas id="myChart" width="100" height="100"></canvas>
+        <script>
+        async function drawChart(data) {
+            const labels = Object.keys(data);
+            const values = Object.values(data);
+        
+            const ctx = document.getElementById('myChart').getContext('2d');
+        
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                    label: 'Chart Data',
+                    data: values,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Bar color
+                    borderColor: 'rgba(75, 192, 192, 1)', // Border color
+                    borderWidth: 1, // Border width
+                    }],
+                },
+                options: {
+                    scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                    },
+                },
+            });
+        }
+        drawChart(${JSON.stringify(data)});
+        </script>
+        </body>
+        </html>`);
+
+
+    console.log({
         "infix" : infix,
         "postfix" : postFix
     });
-})
+});
 
-app.listen(3000, (req,res) => {
-    console.log("Server run on port 3000: http://localhost:3000");
+
+
+app.listen(2000, (req,res) => {
+    console.log("Server run on port 2000: http://localhost:2000");
 });
 
