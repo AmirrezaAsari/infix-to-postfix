@@ -15,8 +15,7 @@ function infixToPostfix(infix){
 
     for(let i=0; i<infix.length; i++){
         let token = infix[i];
-
-        if(/[a-zA-z0-9]/.test(token)){
+        if(/[a-zA-Z0-9]/.test(token)){
             output += token + " ";
         }
         else if(token in operators){
@@ -92,6 +91,6 @@ function calculate(postfix){
 }
 
 module.exports = {infixToPostfix, calculate}
-// let postfix = infixToPostfix("1 + 3 * 4");
-// console.log(postfix);
-// console.log(calculate(postfix));
+let postfix = infixToPostfix("3 + 5 * 2 ^ 4");
+console.log(postfix);
+console.log(calculate(postfix));

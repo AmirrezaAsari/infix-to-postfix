@@ -28,7 +28,7 @@ app.post("/functional", (req, res, next) =>{
     const {infix} = req.body;
     const postFix = infixToPostfix(infix);
     let data = {};
-    for(let i=0; i<9; i++){
+    for(let i=0; i<10; i++){
         numeral = postFix.replace("x", i);
         data[i] = calculate(numeral);
     }
