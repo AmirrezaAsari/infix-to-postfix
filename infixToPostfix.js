@@ -45,17 +45,27 @@ function infixToPostfix(infix){
 
 function calculate(postfix){
     let stack = [];
-    postfix = postfix.replace(/\s/g, '');
+    //postfix = postfix.replace(/\s/g, '');
     for(let i = 0; i < postfix.length; i++){
-        let token = postfix[i];
-        if(! isNaN(parseInt(token))){
-            stack.push(parseInt(token));
+        let toCalculate = postfix[i];
+        if(toCalculate === " ") {
+            toCalculate = postfix[i+1];
+            i++;
+        }
+        let token = postfix[i+1] || 0;
+        while(token != " "){
+            toCalculate += token;
+            token = postfix[i+1];
+            i++;
+        }
+        if(! isNaN(parseInt(toCalculate))){
+            stack.push(parseInt(toCalculate));
         }
         else{
             let val1 = stack.pop();
             let val2 = stack.pop();
 
-            switch(token){
+            switch(toCalculate){
                 case "+" :
                     stack.push(val2 + val1);
                     break;
@@ -70,12 +80,18 @@ function calculate(postfix){
                     break;
                 case "^" :
                     stack.push(Math.pow(val2, val1));
+                    //console.log(val2 , val1);
                     break;
             }
         }
+        console.log(stack);
+        if(i === postfix.length-2) break;
     }
+    //console.log(stack);
     return stack.pop();
 }
 
 module.exports = {infixToPostfix, calculate}
-
+// let postfix = infixToPostfix("1 + 3 * 4");
+// console.log(postfix);
+// console.log(calculate(postfix));
